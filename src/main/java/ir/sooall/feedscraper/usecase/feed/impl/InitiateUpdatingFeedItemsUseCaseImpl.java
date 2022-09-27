@@ -42,7 +42,7 @@ public class InitiateUpdatingFeedItemsUseCaseImpl implements InitiateUpdatingFee
         var subscriptionExist = feedSubscriptionRepository.checkSubscription(request.getUserId(), request.getFeedId());
         if (!subscriptionExist) {
             return Try.failure(new EntityNotFoundException(FeedSubscription.class
-                , "userId", "feedId", request.getFeedId().value().toString(), request.getUserId().value().toString()));
+                , "feedId", request.getFeedId().value().toString(), "userId",  request.getUserId().value().toString()));
         }
         var feedOptional = feedRepository.fetchFeed(request.getFeedId());
         if (feedOptional.isEmpty()) {

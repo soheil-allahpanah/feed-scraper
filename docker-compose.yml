@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   API:
-    image: 'feed-scraper-1.0.jar'
+    image: 'simple-feed-scraper-1.0.jar'
     ports:
       - "8080:8080"
     environment:
