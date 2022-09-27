@@ -47,18 +47,9 @@ curl -X PUT "http://127.0.0.1:8080/feed-item/unBookmark" \
 curl "http://127.0.0.1:8080//users/1/bookmarked"
 ```
 
-## Config
-**In application.properties**
-```properties
-spring.datasource.url=jdbc:postgresql://192.168.122.242:5432/feed  
-spring.datasource.username=feed  
-spring.datasource.password=feed  
-spring.datasource.driverClassName=org.postgresql.Driver  
-jooq.sql.dialect=POSTGRES
-## how many time the server would try fetch data from feed provider  
-feedItem.fetch.retry.number=3
-```
-**In build.gradle**
+## Set up
+1. Before running the project, it's necessary to create DB schema. I used JOOQ framework to work with the database, And it needs some classes to be generated at compile time. So for building the project, it is necessary to run **00_create_tables.sql** in a PostgreSQL DB.
+2. Then change **build.gradle** by replacing your database date
 ```groovy
 jooq {
   version = '3.16.5'
@@ -83,7 +74,21 @@ jooq {
   ...
 }
 ```
+3. Build the project
+```shell
+./gradlew build
+```
+4. ***[Just in case]*** Above command should create needed classes automatically. but if you have some issues, you can run these commands:
+```shell
+./gradlew cleanGenerateJooq
+./gradlew generateJooq
+```
 
+5. Create docker images and run them
+```shell
+docker build -t simple-feed-scraper-1.0.jar . 
+docker-compose up -d
+```
 
 
 ## Scripts
